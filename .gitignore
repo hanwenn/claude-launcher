@@ -1,0 +1,30 @@
+node_modules/
+dist/
+src-tauri/target/
+*.log
+.DS_Store
+Thumbs.db
+
+# Cargo build dirs
+cargo-build/
+.cargo-target/
+
+# Electron
+out/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Environment
+.env
+.env.local
+
+# Python cache
+__pycache__/
+*.pyc
+
+# Package lock (optional, include if you want reproducible builds)
+# package-lock.json

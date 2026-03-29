@@ -1,0 +1,15 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(uipro init:*)",
+      "Bash(cargo check:*)",
+      "Bash(npx vite:*)",
+      "Bash(rustc --version)",
+      "Bash(cargo --version)",
+      "Bash(sh -s -- -y)",
+      "Bash(export PATH=\"$HOME/.cargo/bin:$PATH\")",
+      "Bash(export CARGO_TARGET_DIR=\"$TEMP/cargo-target-msvc\")",
+      "Bash(npm ls:*)"
+    ]
+  }
+}
