@@ -1474,6 +1474,15 @@ select:focus {
    Terminal Container (xterm wrapper)
    ============================================================ */
 
+.terminal-pane-wrapper {
+  position: relative;
+  flex: 1;
+  overflow: hidden;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+}
+
 .terminal-container {
   flex: 1;
   overflow: hidden;
@@ -1483,6 +1492,65 @@ select:focus {
 .terminal-container .xterm {
   height: 100%;
   padding: var(--space-1);
+}
+
+/* ============================================================
+   Terminal Search Bar
+   ============================================================ */
+
+.terminal-search-bar {
+  position: absolute;
+  top: var(--space-2);
+  right: var(--space-3);
+  z-index: var(--z-banner);
+  display: flex;
+  align-items: center;
+  gap: var(--space-1);
+  padding: var(--space-1) var(--space-2);
+  background: var(--bg-secondary);
+  border: 1px solid var(--border-default);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-md);
+}
+
+.terminal-search-bar__input {
+  width: 180px;
+  height: 26px;
+  padding: 0 var(--space-2);
+  font-size: var(--text-sm);
+  font-family: var(--font-mono);
+  background: var(--bg-tertiary);
+  border: 1px solid var(--border-default);
+  border-radius: var(--radius-sm);
+  color: var(--text-primary);
+  outline: none;
+}
+
+.terminal-search-bar__input:focus {
+  border-color: var(--accent-blue);
+}
+
+.terminal-search-bar__btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 24px;
+  border-radius: var(--radius-sm);
+  color: var(--text-secondary);
+  background: none;
+  border: none;
+  cursor: pointer;
+  transition: background var(--transition-fast), color var(--transition-fast);
+}
+
+.terminal-search-bar__btn:hover {
+  background: var(--bg-hover);
+  color: var(--text-primary);
+}
+
+.terminal-search-bar__btn--close:hover {
+  color: var(--accent-red);
 }
 
 /* ============================================================
@@ -1763,4 +1831,127 @@ select:focus {
 
 .spin {
   animation: spin 1s linear infinite;
+}
+
+/* ============================================================
+   Shortcut Help Modal
+   ============================================================ */
+
+.shortcut-help__overlay {
+  position: fixed;
+  inset: 0;
+  z-index: var(--z-dialog);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(0, 0, 0, 0.6);
+  backdrop-filter: blur(4px);
+  outline: none;
+}
+
+.shortcut-help {
+  width: 480px;
+  max-width: 90vw;
+  max-height: 80vh;
+  display: flex;
+  flex-direction: column;
+  background: var(--bg-secondary);
+  border: 1px solid var(--border-default);
+  border-radius: var(--radius-xl);
+  box-shadow: var(--shadow-lg);
+  animation: dialog-enter 200ms ease;
+  overflow: hidden;
+}
+
+.shortcut-help__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: var(--space-4) var(--space-5);
+  border-bottom: 1px solid var(--border-default);
+  flex-shrink: 0;
+}
+
+.shortcut-help__title {
+  font-size: var(--text-lg);
+  font-weight: var(--weight-semibold);
+  color: var(--text-primary);
+}
+
+.shortcut-help__close-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  border-radius: var(--radius-sm);
+  color: var(--text-secondary);
+  background: none;
+  border: none;
+  cursor: pointer;
+  transition: background var(--transition-fast), color var(--transition-fast);
+}
+
+.shortcut-help__close-btn:hover {
+  background: var(--bg-hover);
+  color: var(--text-primary);
+}
+
+.shortcut-help__body {
+  padding: var(--space-4) var(--space-5);
+  overflow-y: auto;
+}
+
+.shortcut-help__group {
+  margin-bottom: var(--space-4);
+}
+
+.shortcut-help__group:last-child {
+  margin-bottom: 0;
+}
+
+.shortcut-help__category {
+  font-size: var(--text-sm);
+  font-weight: var(--weight-semibold);
+  color: var(--accent-blue);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin-bottom: var(--space-2);
+}
+
+.shortcut-help__table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.shortcut-help__table tr {
+  border-bottom: 1px solid var(--border-muted);
+}
+
+.shortcut-help__table tr:last-child {
+  border-bottom: none;
+}
+
+.shortcut-help__key {
+  padding: var(--space-2) var(--space-2) var(--space-2) 0;
+  white-space: nowrap;
+  width: 140px;
+}
+
+.shortcut-help__key kbd {
+  display: inline-block;
+  padding: 2px 6px;
+  font-family: var(--font-mono);
+  font-size: var(--text-xs);
+  color: var(--text-primary);
+  background: var(--bg-tertiary);
+  border: 1px solid var(--border-default);
+  border-radius: var(--radius-sm);
+  box-shadow: 0 1px 0 var(--border-default);
+}
+
+.shortcut-help__desc {
+  padding: var(--space-2) 0;
+  color: var(--text-secondary);
+  font-size: var(--text-sm);
 }

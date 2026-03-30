@@ -1,3 +1,11 @@
+// Suppress node-pty conpty_console_list_agent errors (cosmetic, doesn't affect functionality)
+process.on('uncaughtException', (err) => {
+  if (err.message && err.message.includes('AttachConsole failed')) {
+    return; // Ignore this known node-pty issue in Electron
+  }
+  console.error('Uncaught exception:', err);
+});
+
 const { app, BrowserWindow, ipcMain } = require('electron');
 const path = require('path');
 const fs = require('fs');

@@ -9,7 +9,8 @@
       "Bash(sh -s -- -y)",
       "Bash(export PATH=\"$HOME/.cargo/bin:$PATH\")",
       "Bash(export CARGO_TARGET_DIR=\"$TEMP/cargo-target-msvc\")",
-      "Bash(npm ls:*)"
+      "Bash(npm ls:*)",
+      "Bash(git config:*)"
     ]
   }
 }

@@ -1,8 +1,10 @@
 import type { Component } from "solid-js";
-import { onMount, onCleanup } from "solid-js";
+import { onMount, onCleanup, createSignal, Show } from "solid-js";
 import { Terminal } from "xterm";
 import { FitAddon } from "@xterm/addon-fit";
 import { WebLinksAddon } from "@xterm/addon-web-links";
+import { SearchAddon } from "@xterm/addon-search";
+import { ChevronUp, ChevronDown, X } from "lucide-solid";
 import "xterm/css/xterm.css";
 import * as api from "../lib/tauri-api";
 import { subscribeOutput, unsubscribeOutput } from "../stores/terminalStore";
@@ -37,10 +39,56 @@ const XTERM_THEME = {
 
 const TerminalPane: Component<TerminalPaneProps> = (props) => {
   let containerRef: HTMLDivElement | undefined;
+  let searchInputRef: HTMLInputElement | undefined;
   let term: Terminal | null = null;
   let fitAddon: FitAddon | null = null;
+  let searchAddon: SearchAddon | null = null;
   let resizeObserver: ResizeObserver | null = null;
   let resizeTimeout: ReturnType<typeof setTimeout> | null = null;
+
+  const [showSearch, setShowSearch] = createSignal(false);
+  const [searchQuery, setSearchQuery] = createSignal("");
+
+  function openSearch(): void {
+    setShowSearch(true);
+    // Focus input after DOM update
+    requestAnimationFrame(() => {
+      searchInputRef?.focus();
+      searchInputRef?.select();
+    });
+  }
+
+  function closeSearch(): void {
+    setShowSearch(false);
+    setSearchQuery("");
+    term?.focus();
+  }
+
+  function handleSearchNext(): void {
+    const query = searchQuery();
+    if (query && searchAddon) {
+      searchAddon.findNext(query);
+    }
+  }
+
+  function handleSearchPrev(): void {
+    const query = searchQuery();
+    if (query && searchAddon) {
+      searchAddon.findPrevious(query);
+    }
+  }
+
+  function handleSearchKeyDown(e: KeyboardEvent): void {
+    if (e.key === "Escape") {
+      closeSearch();
+    } else if (e.key === "Enter") {
+      if (e.shiftKey) {
+        handleSearchPrev();
+      } else {
+        handleSearchNext();
+      }
+    }
+  }
 
   const outputCallback = (data: string): void => {
     if (term) {
@@ -61,11 +109,22 @@ const TerminalPane: Component<TerminalPaneProps> = (props) => {
     });
 
     fitAddon = new FitAddon();
+    searchAddon = new SearchAddon();
     const webLinksAddon = new WebLinksAddon();
 
     term.loadAddon(fitAddon);
+    term.loadAddon(searchAddon);
     term.loadAddon(webLinksAddon);
     term.open(containerRef);
+
+    // Ctrl+F to open search within this terminal
+    term.attachCustomKeyEventHandler((e: KeyboardEvent) => {
+      if (e.ctrlKey && e.key === "f" && e.type === "keydown") {
+        openSearch();
+        return false; // Prevent terminal from receiving Ctrl+F
+      }
+      return true;
+    });
 
     // Replay buffer (API returns { success, data } or raw string)
     api.replayTerminal(props.terminalId)
@@ -89,13 +148,15 @@ const TerminalPane: Component<TerminalPaneProps> = (props) => {
       });
     });
 
-    // ResizeObserver with debounce
+    // ResizeObserver with debounce - check non-zero dimensions before fitting
     resizeObserver = new ResizeObserver(() => {
       if (resizeTimeout) {
         clearTimeout(resizeTimeout);
       }
       resizeTimeout = setTimeout(() => {
-        if (fitAddon && term) {
+        if (fitAddon && term && containerRef) {
+          const { clientWidth, clientHeight } = containerRef;
+          if (clientWidth === 0 || clientHeight === 0) return;
           try {
             fitAddon.fit();
             api.resizeTerminal(props.terminalId, term.cols, term.rows).catch(() => {
@@ -112,7 +173,7 @@ const TerminalPane: Component<TerminalPaneProps> = (props) => {
 
     // Initial fit after render - use double rAF + delay to ensure container is sized
     const doFit = () => {
-      if (fitAddon && term && containerRef && containerRef.clientWidth > 0) {
+      if (fitAddon && term && containerRef && containerRef.clientWidth > 0 && containerRef.clientHeight > 0) {
         try {
           fitAddon.fit();
           api.resizeTerminal(props.terminalId, term.cols, term.rows).catch(() => {});
@@ -150,13 +211,50 @@ const TerminalPane: Component<TerminalPaneProps> = (props) => {
     }
 
     fitAddon = null;
+    searchAddon = null;
   });
 
   return (
-    <div
-      class="terminal-container"
-      ref={containerRef}
-    />
+    <div class="terminal-pane-wrapper">
+      <Show when={showSearch()}>
+        <div class="terminal-search-bar">
+          <input
+            ref={searchInputRef}
+            type="text"
+            class="terminal-search-bar__input"
+            placeholder="Search..."
+            value={searchQuery()}
+            onInput={(e) => setSearchQuery(e.currentTarget.value)}
+            onKeyDown={handleSearchKeyDown}
+          />
+          <button
+            class="terminal-search-bar__btn"
+            onClick={handleSearchPrev}
+            title="Previous match (Shift+Enter)"
+          >
+            <ChevronUp size={14} />
+          </button>
+          <button
+            class="terminal-search-bar__btn"
+            onClick={handleSearchNext}
+            title="Next match (Enter)"
+          >
+            <ChevronDown size={14} />
+          </button>
+          <button
+            class="terminal-search-bar__btn terminal-search-bar__btn--close"
+            onClick={closeSearch}
+            title="Close (Escape)"
+          >
+            <X size={14} />
+          </button>
+        </div>
+      </Show>
+      <div
+        class="terminal-container"
+        ref={containerRef}
+      />
+    </div>
   );
 };
 
