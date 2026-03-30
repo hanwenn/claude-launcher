@@ -14,6 +14,15 @@
 All notable changes to this project will be documented in this file.
 Format based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
+## [0.3.0] - 2026-03-30
+
+### Added
+
+- **Command Palette** (Ctrl+Shift+P): fuzzy-search all available actions with keyboard navigation, icons, and shortcut hints
+- **Theme System**: 5 built-in themes (Dark Default, Dark Ocean, Dark Forest, Dark Purple, Light) with localStorage persistence and xterm.js color integration
+- **Pro Feature Gate Framework**: free tier limited to 4 panes, Pro unlocks 8 panes; lock icons and "Pro" badges on restricted layouts; license key activation via Upgrade Prompt dialog
+- Toggle theme action wired into Command Palette
+
 ## [0.1.0] - 2026-03-30
 
 ### Added
@@ -55,6 +64,15 @@ Format based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 <summary><strong>点击展开 / 收起</strong></summary>
 
 本文件记录所有版本的重要变更。格式基于 [Keep a Changelog](https://keepachangelog.com/zh-CN/1.1.0/)。
+
+## [0.3.0] - 2026-03-30
+
+### 新增
+
+- **命令面板** (Ctrl+Shift+P)：模糊搜索所有可用操作，支持键盘导航、图标和快捷键提示
+- **主题系统**：5 款内置主题（暗色默认、深海蓝、森林绿、暗紫、浅色），支持 localStorage 持久化和 xterm.js 配色同步
+- **Pro 功能门控框架**：免费版限制 4 窗格，Pro 解锁 8 窗格；受限布局显示锁定图标和 "Pro" 徽章；支持许可证密钥激活的升级提示弹窗
+- 主题切换已接入命令面板
 
 ## [0.1.0] - 2026-03-30
 

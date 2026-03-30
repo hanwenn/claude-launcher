@@ -10,17 +10,21 @@ import {
   maximizedId,
   setMaximized,
   removeTerminal,
+  setLayoutMode,
 } from "./stores/terminalStore";
 import { activeFolder } from "./stores/folderStore";
 import { openTerminal } from "./stores/terminalStore";
 import * as api from "./lib/tauri-api";
+import { initTheme, cycleTheme } from "./stores/themeStore";
 import DashboardView from "./components/DashboardView";
 import ShortcutHelp from "./components/ShortcutHelp";
+import CommandPalette from "./components/CommandPalette";
 
 const DashboardApp: Component = () => {
   const [showCloseConfirm, setShowCloseConfirm] = createSignal(false);
   const [closeRunningCount, setCloseRunningCount] = createSignal(0);
   const [showShortcutHelp, setShowShortcutHelp] = createSignal(false);
+  const [showCommandPalette, setShowCommandPalette] = createSignal(false);
   const [pendingCloseId, setPendingCloseId] = createSignal<string | null>(null);
 
   let cleanupConfirmClose: (() => void) | null = null;
@@ -33,10 +37,10 @@ const DashboardApp: Component = () => {
       return;
     }
 
-    // Ctrl+Shift+P => command palette placeholder
+    // Ctrl+Shift+P => command palette
     if (e.ctrlKey && e.shiftKey && e.key === "P") {
       e.preventDefault();
-      // Placeholder for future Command Palette
+      setShowCommandPalette((prev) => !prev);
       return;
     }
 
@@ -92,6 +96,10 @@ const DashboardApp: Component = () => {
 
     // Escape => close search / restore from maximize / close modals
     if (e.key === "Escape") {
+      if (showCommandPalette()) {
+        setShowCommandPalette(false);
+        return;
+      }
       if (showShortcutHelp()) {
         setShowShortcutHelp(false);
         return;
@@ -164,7 +172,34 @@ const DashboardApp: Component = () => {
     }
   }
 
+  function handleSearchTerminal(): void {
+    // Trigger Ctrl+F on the active terminal
+    const event = new KeyboardEvent('keydown', { key: 'f', ctrlKey: true, bubbles: true });
+    document.dispatchEvent(event);
+  }
+
+  function handleSetLayout(mode: number): void {
+    setLayoutMode(mode as 1 | 2 | 4 | 6 | 8);
+  }
+
+  function handleSwitchTerminal(index: number): void {
+    const termList = terminals();
+    if (index < termList.length) {
+      const targetId = termList[index].id;
+      if (maximizedId() !== null) {
+        setMaximized(targetId);
+      }
+      const cells = document.querySelectorAll('.terminal-cell');
+      const cell = cells[index] as HTMLElement | undefined;
+      if (cell) {
+        const xtermEl = cell.querySelector('.xterm-helper-textarea') as HTMLElement | null;
+        xtermEl?.focus();
+      }
+    }
+  }
+
   onMount(() => {
+    initTheme();
     setupListeners();
     loadTerminalsFromMain();
 
@@ -271,6 +306,23 @@ const DashboardApp: Component = () => {
               </div>
             </div>
           </div>
+        </Portal>
+      </Show>
+
+      {/* Command Palette */}
+      <Show when={showCommandPalette()}>
+        <Portal>
+          <CommandPalette
+            onClose={() => setShowCommandPalette(false)}
+            onNewTerminal={handleNewTerminal}
+            onCloseTerminal={handleCloseActiveTerminal}
+            onToggleMaximize={handleToggleMaximize}
+            onSearchTerminal={handleSearchTerminal}
+            onSetLayout={handleSetLayout}
+            onSwitchTerminal={handleSwitchTerminal}
+            onShowShortcuts={() => setShowShortcutHelp(true)}
+            onToggleTheme={cycleTheme}
+          />
         </Portal>
       </Show>
 
