@@ -28,3 +28,5 @@ __pycache__/
 
 # Package lock (optional, include if you want reproducible builds)
 # package-lock.json
+docs/PRODUCT-STRATEGY.md
+docs/COMPANY-*.md
