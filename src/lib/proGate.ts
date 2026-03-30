@@ -1,10 +1,17 @@
 const FREE_MAX_PANES = 4;
 const PRO_MAX_PANES = 8;
 const PRO_KEY = 'claude-launcher-pro-key';
+const KEY_PREFIX = 'CL-';
+const KEY_PATTERN = /^CL-[A-Za-z0-9]{4}-[A-Za-z0-9]{4}-[A-Za-z0-9]{4}$/;
+
+export function validateKey(key: string): boolean {
+  return KEY_PATTERN.test(key.trim());
+}
 
 export function isProUser(): boolean {
   try {
-    return !!localStorage.getItem(PRO_KEY);
+    const stored = localStorage.getItem(PRO_KEY);
+    return typeof stored === 'string' && stored.startsWith(KEY_PREFIX);
   } catch {
     return false;
   }

@@ -9,6 +9,14 @@
   <a href="#english">English</a> | <a href="#中文">中文</a>
 </p>
 
+<p align="center">
+  <a href="https://github.com/hanwenn/claude-launcher/releases"><strong>Download Latest Release</strong></a>
+  &nbsp;&bull;&nbsp;
+  <a href="https://hanwenn.github.io/claude-launcher/">Landing Page</a>
+  &nbsp;&bull;&nbsp;
+  <strong>Pro: $19 one-time</strong> — 8 panes, 5 themes, command palette
+</p>
+
 <!-- screenshot -->
 
 ---

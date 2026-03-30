@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Claude Launcher - Windows GUI for Claude Code Sessions</title>
+<meta name="description" content="The only Windows GUI for managing Claude Code sessions. Split-screen terminal dashboard, DNS safety check, one-click session resume.">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#0d1117;--bg2:#161b22;--bg3:#1c2128;
+  --border:#30363d;--border2:#484f58;
+  --text:#e6edf3;--text2:#8b949e;--text3:#6e7681;
+  --accent:#58a6ff;--accent2:#1f6feb;
+  --green:#3fb950;--purple:#bc8cff;--orange:#d29922;
+  --radius:12px;--radius-sm:8px;
+}
+html{scroll-behavior:smooth}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Helvetica,Arial,sans-serif;background:var(--bg);color:var(--text);line-height:1.6;overflow-x:hidden}
+a{color:var(--accent);text-decoration:none;transition:color .2s}
+a:hover{color:#79c0ff}
+
+/* Utility */
+.container{max-width:1100px;margin:0 auto;padding:0 24px}
+.section{padding:80px 0}
+.section-title{font-size:2rem;font-weight:700;text-align:center;margin-bottom:12px}
+.section-subtitle{text-align:center;color:var(--text2);margin-bottom:48px;font-size:1.1rem}
+
+/* Nav */
+nav{position:fixed;top:0;left:0;right:0;z-index:100;background:rgba(13,17,23,.85);backdrop-filter:blur(12px);border-bottom:1px solid var(--border);padding:12px 0}
+nav .container{display:flex;align-items:center;justify-content:space-between}
+nav .logo{font-size:1.2rem;font-weight:700;color:var(--text);display:flex;align-items:center;gap:8px}
+nav .logo span{color:var(--accent)}
+nav .nav-links{display:flex;gap:24px;align-items:center}
+nav .nav-links a{color:var(--text2);font-size:.9rem;transition:color .2s}
+nav .nav-links a:hover{color:var(--text)}
+.lang-toggle{background:var(--bg3);border:1px solid var(--border);border-radius:20px;padding:4px 12px;color:var(--text2);cursor:pointer;font-size:.85rem;transition:all .2s}
+.lang-toggle:hover{border-color:var(--accent);color:var(--text)}
+
+/* Hero */
+.hero{padding:140px 0 80px;text-align:center;position:relative;overflow:hidden}
+.hero::before{content:'';position:absolute;top:0;left:50%;transform:translateX(-50%);width:800px;height:600px;background:radial-gradient(ellipse,rgba(31,111,235,.15) 0%,transparent 70%);pointer-events:none}
+.hero h1{font-size:3.5rem;font-weight:800;margin-bottom:16px;background:linear-gradient(135deg,var(--text) 0%,var(--accent) 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;animation:fadeInUp .8s ease-out}
+.hero .tagline{font-size:1.25rem;color:var(--text2);max-width:640px;margin:0 auto 32px;animation:fadeInUp .8s ease-out .1s both}
+.hero .cta-group{display:flex;gap:16px;justify-content:center;flex-wrap:wrap;animation:fadeInUp .8s ease-out .2s both}
+.btn{display:inline-flex;align-items:center;gap:8px;padding:12px 28px;border-radius:var(--radius-sm);font-size:1rem;font-weight:600;transition:all .25s;border:none;cursor:pointer;text-decoration:none}
+.btn-primary{background:var(--accent2);color:#fff}
+.btn-primary:hover{background:var(--accent);color:#fff;transform:translateY(-2px);box-shadow:0 4px 20px rgba(88,166,255,.3)}
+.btn-secondary{background:var(--bg3);color:var(--text);border:1px solid var(--border)}
+.btn-secondary:hover{border-color:var(--accent);transform:translateY(-2px)}
+
+/* GIF placeholder */
+.hero-demo{max-width:720px;margin:48px auto 0;border-radius:var(--radius);border:1px solid var(--border);background:var(--bg2);aspect-ratio:16/9;display:flex;align-items:center;justify-content:center;color:var(--text3);font-size:.95rem;animation:fadeInUp .8s ease-out .3s both;overflow:hidden;position:relative}
+.hero-demo::after{content:'';position:absolute;inset:0;border-radius:var(--radius);background:linear-gradient(135deg,rgba(88,166,255,.05),rgba(188,140,255,.05));pointer-events:none}
+
+/* Features */
+.features-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:24px}
+.feature-card{background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius);padding:28px;transition:all .3s;position:relative;overflow:hidden}
+.feature-card:hover{border-color:var(--accent);transform:translateY(-4px);box-shadow:0 8px 30px rgba(0,0,0,.3)}
+.feature-card::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,var(--accent),var(--purple));opacity:0;transition:opacity .3s}
+.feature-card:hover::before{opacity:1}
+.feature-icon{font-size:1.8rem;margin-bottom:12px;display:block}
+.feature-card h3{font-size:1.1rem;margin-bottom:8px;color:var(--text)}
+.feature-card p{color:var(--text2);font-size:.95rem;line-height:1.6}
+
+/* Pricing */
+.pricing-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:32px;max-width:760px;margin:0 auto}
+.pricing-card{background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius);padding:36px;text-align:center;transition:all .3s;position:relative}
+.pricing-card.pro{border-color:var(--accent);box-shadow:0 0 40px rgba(31,111,235,.15)}
+.pricing-card.pro::before{content:'BEST VALUE';position:absolute;top:-12px;left:50%;transform:translateX(-50%);background:var(--accent2);color:#fff;font-size:.75rem;font-weight:700;padding:4px 16px;border-radius:20px;letter-spacing:.5px}
+.pricing-card h3{font-size:1.3rem;margin-bottom:8px}
+.pricing-price{font-size:2.8rem;font-weight:800;margin:16px 0 4px}
+.pricing-price span{font-size:1rem;color:var(--text2);font-weight:400}
+.pricing-note{color:var(--text3);font-size:.85rem;margin-bottom:24px}
+.pricing-features{list-style:none;text-align:left;margin-bottom:28px}
+.pricing-features li{padding:8px 0;border-bottom:1px solid var(--border);color:var(--text2);font-size:.95rem;display:flex;align-items:center;gap:8px}
+.pricing-features li::before{content:'';display:inline-block;width:18px;height:18px;border-radius:50%;flex-shrink:0}
+.pricing-features li.yes::before{background:var(--green);box-shadow:0 0 6px rgba(63,185,80,.4)}
+.pricing-features li.no::before{background:var(--border)}
+
+/* Download */
+.download-cards{display:flex;gap:24px;justify-content:center;flex-wrap:wrap}
+.download-card{background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius);padding:32px 40px;text-align:center;transition:all .3s;min-width:280px}
+.download-card:hover{border-color:var(--accent);transform:translateY(-2px)}
+.download-card h3{margin-bottom:8px;font-size:1.15rem}
+.download-card p{color:var(--text2);font-size:.9rem;margin-bottom:20px}
+
+/* Footer */
+footer{border-top:1px solid var(--border);padding:32px 0;text-align:center;color:var(--text3);font-size:.85rem}
+footer a{color:var(--text2)}
+footer .footer-links{display:flex;gap:24px;justify-content:center;margin-bottom:12px}
+
+/* Animations */
+@keyframes fadeInUp{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
+.fade-in{opacity:0;transform:translateY(20px);transition:all .6s ease-out}
+.fade-in.visible{opacity:1;transform:translateY(0)}
+
+/* Language toggle */
+[data-lang="cn"]{display:none}
+body.zh [data-lang="en"]{display:none}
+body.zh [data-lang="cn"]{display:block}
+body.zh [data-lang="cn-inline"]{display:inline}
+body.zh [data-lang="en-inline"]{display:none}
+[data-lang="cn-inline"]{display:none}
+
+/* Responsive */
+@media(max-width:768px){
+  .hero h1{font-size:2.2rem}
+  .hero .tagline{font-size:1rem}
+  .section{padding:56px 0}
+  .features-grid{grid-template-columns:1fr}
+  .pricing-grid{grid-template-columns:1fr;max-width:400px}
+  nav .nav-links{gap:12px}
+}
+</style>
+</head>
+<body>
+
+<!-- Nav -->
+<nav>
+  <div class="container">
+    <div class="logo">
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><line x1="3" y1="9" x2="21" y2="9"/><line x1="9" y1="21" x2="9" y2="9"/></svg>
+      <span>Claude Launcher</span>
+    </div>
+    <div class="nav-links">
+      <a href="#features" data-lang="en">Features</a>
+      <a href="#features" data-lang="cn">功能</a>
+      <a href="#pricing" data-lang="en">Pricing</a>
+      <a href="#pricing" data-lang="cn">定价</a>
+      <a href="#download" data-lang="en">Download</a>
+      <a href="#download" data-lang="cn">下载</a>
+      <button class="lang-toggle" onclick="toggleLang()" id="langBtn">中文</button>
+    </div>
+  </div>
+</nav>
+
+<!-- Hero -->
+<section class="hero">
+  <div class="container">
+    <h1>Claude Launcher</h1>
+    <p class="tagline" data-lang="en">The only Windows GUI for managing Claude Code sessions. Split-screen terminal dashboard, DNS safety check, one-click session resume.</p>
+    <p class="tagline" data-lang="cn">Windows 上唯一的 Claude Code 图形化会话管理器。分屏终端仪表盘，DNS安全检查，一键恢复会话。</p>
+    <div class="cta-group">
+      <a href="#download" class="btn btn-primary" data-lang="en">Download Free</a>
+      <a href="#download" class="btn btn-primary" data-lang="cn">免费下载</a>
+      <a href="#pricing" class="btn btn-secondary" data-lang="en">Get Pro - $19</a>
+      <a href="#pricing" class="btn btn-secondary" data-lang="cn">获取 Pro - $19</a>
+    </div>
+    <div class="hero-demo">
+      <span data-lang="en">&#9654; 30-second product demo GIF coming soon</span>
+      <span data-lang="cn">&#9654; 30秒产品演示 GIF 即将推出</span>
+    </div>
+  </div>
+</section>
+
+<!-- Features -->
+<section class="section" id="features">
+  <div class="container">
+    <h2 class="section-title fade-in" data-lang="en">Everything you need</h2>
+    <h2 class="section-title fade-in" data-lang="cn">核心功能</h2>
+    <p class="section-subtitle fade-in" data-lang="en">Built for developers who run multiple Claude Code sessions daily.</p>
+    <p class="section-subtitle fade-in" data-lang="cn">专为每天运行多个 Claude Code 会话的开发者打造。</p>
+    <div class="features-grid">
+      <div class="feature-card fade-in">
+        <span class="feature-icon">&#9638;</span>
+        <h3 data-lang="en">Split-Screen Dashboard</h3>
+        <h3 data-lang="cn">分屏仪表盘</h3>
+        <p data-lang="en">Run 1 to 8 terminal panes in a grid layout. Monitor all your Claude sessions at a glance.</p>
+        <p data-lang="cn">在网格布局中运行 1 到 8 个终端面板，一览所有 Claude 会话状态。</p>
+      </div>
+      <div class="feature-card fade-in">
+        <span class="feature-icon">&#128274;</span>
+        <h3 data-lang="en">DNS Safety Check</h3>
+        <h3 data-lang="cn">DNS 安全检查</h3>
+        <p data-lang="en">Verify claude.ai resolves to expected IPs before launch. Detects VPN issues and DNS hijacking.</p>
+        <p data-lang="cn">启动前验证 claude.ai 的 DNS 解析结果，检测 VPN 问题和 DNS 劫持。</p>
+      </div>
+      <div class="feature-card fade-in">
+        <span class="feature-icon">&#128400;</span>
+        <h3 data-lang="en">Drag-and-Drop Reorder</h3>
+        <h3 data-lang="cn">拖拽排序</h3>
+        <p data-lang="en">Rearrange terminal panes by dragging. Organize your workflow your way.</p>
+        <p data-lang="cn">通过拖拽重新排列终端面板位置，按你的方式组织工作流。</p>
+      </div>
+      <div class="feature-card fade-in">
+        <span class="feature-icon">&#127912;</span>
+        <h3 data-lang="en">Multiple Themes</h3>
+        <h3 data-lang="cn">多主题支持</h3>
+        <p data-lang="en">3 themes free, 5 with Pro. Dark, light, and custom color schemes for your terminal.</p>
+        <p data-lang="cn">免费版 3 个主题，Pro 版 5 个。暗色、亮色和自定义配色方案。</p>
+      </div>
+      <div class="feature-card fade-in">
+        <span class="feature-icon">&#9000;</span>
+        <h3 data-lang="en">Keyboard Shortcuts</h3>
+        <h3 data-lang="cn">键盘快捷键</h3>
+        <p data-lang="en">Navigate between panes, launch sessions, and manage windows without touching the mouse.</p>
+        <p data-lang="cn">在面板间导航、启动会话、管理窗口，无需触碰鼠标。</p>
+      </div>
+      <div class="feature-card fade-in">
+        <span class="feature-icon">&#128260;</span>
+        <h3 data-lang="en">Session Sync</h3>
+        <h3 data-lang="cn">会话同步</h3>
+        <p data-lang="en">Running sessions show live status badges. Resume any session with one click.</p>
+        <p data-lang="cn">运行中的会话显示实时状态徽标，一键恢复任意会话。</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Pricing -->
+<section class="section" id="pricing" style="background:var(--bg2)">
+  <div class="container">
+    <h2 class="section-title fade-in" data-lang="en">Simple pricing</h2>
+    <h2 class="section-title fade-in" data-lang="cn">简单定价</h2>
+    <p class="section-subtitle fade-in" data-lang="en">One-time purchase. No subscriptions. Free updates forever.</p>
+    <p class="section-subtitle fade-in" data-lang="cn">一次购买，永久使用。没有订阅，免费更新。</p>
+    <div class="pricing-grid">
+      <!-- Free -->
+      <div class="pricing-card fade-in">
+        <h3>Free</h3>
+        <div class="pricing-price">$0</div>
+        <div class="pricing-note" data-lang="en">Free forever</div>
+        <div class="pricing-note" data-lang="cn">永久免费</div>
+        <ul class="pricing-features">
+          <li class="yes" data-lang="en">Up to 4 terminal panes</li>
+          <li class="yes" data-lang="cn">最多 4 个终端面板</li>
+          <li class="yes" data-lang="en">3 color themes</li>
+          <li class="yes" data-lang="cn">3 个颜色主题</li>
+          <li class="yes" data-lang="en">Basic keyboard shortcuts</li>
+          <li class="yes" data-lang="cn">基本键盘快捷键</li>
+          <li class="yes" data-lang="en">DNS safety check</li>
+          <li class="yes" data-lang="cn">DNS 安全检查</li>
+          <li class="no" data-lang="en">Command palette</li>
+          <li class="no" data-lang="cn">命令面板</li>
+          <li class="no" data-lang="en">Priority support</li>
+          <li class="no" data-lang="cn">优先支持</li>
+        </ul>
+        <a href="#download" class="btn btn-secondary" style="width:100%;justify-content:center" data-lang="en">Download Free</a>
+        <a href="#download" class="btn btn-secondary" style="width:100%;justify-content:center" data-lang="cn">免费下载</a>
+      </div>
+      <!-- Pro -->
+      <div class="pricing-card pro fade-in">
+        <h3>Pro</h3>
+        <div class="pricing-price">$19 <span data-lang="en">one-time</span><span data-lang="cn">一次性</span></div>
+        <div class="pricing-note" data-lang="en">Pay once, own forever</div>
+        <div class="pricing-note" data-lang="cn">一次付款，永久拥有</div>
+        <ul class="pricing-features">
+          <li class="yes" data-lang="en">Up to 8 terminal panes</li>
+          <li class="yes" data-lang="cn">最多 8 个终端面板</li>
+          <li class="yes" data-lang="en">5 color themes</li>
+          <li class="yes" data-lang="cn">5 个颜色主题</li>
+          <li class="yes" data-lang="en">All keyboard shortcuts</li>
+          <li class="yes" data-lang="cn">全部键盘快捷键</li>
+          <li class="yes" data-lang="en">DNS safety check</li>
+          <li class="yes" data-lang="cn">DNS 安全检查</li>
+          <li class="yes" data-lang="en">Command palette</li>
+          <li class="yes" data-lang="cn">命令面板</li>
+          <li class="yes" data-lang="en">Priority support</li>
+          <li class="yes" data-lang="cn">优先支持</li>
+        </ul>
+        <a href="https://your-store.lemonsqueezy.com/checkout" target="_blank" class="btn btn-primary" style="width:100%;justify-content:center" data-lang="en">Buy Pro - $19</a>
+        <a href="https://your-store.lemonsqueezy.com/checkout" target="_blank" class="btn btn-primary" style="width:100%;justify-content:center" data-lang="cn">购买 Pro - $19</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Download -->
+<section class="section" id="download">
+  <div class="container">
+    <h2 class="section-title fade-in" data-lang="en">Download</h2>
+    <h2 class="section-title fade-in" data-lang="cn">下载</h2>
+    <p class="section-subtitle fade-in" data-lang="en">Get started in under a minute. Windows 10+ required.</p>
+    <p class="section-subtitle fade-in" data-lang="cn">一分钟内开始使用。需要 Windows 10 及以上。</p>
+    <div class="download-cards">
+      <div class="download-card fade-in">
+        <h3 data-lang="en">Free Edition</h3>
+        <h3 data-lang="cn">免费版</h3>
+        <p data-lang="en">Download from GitHub Releases</p>
+        <p data-lang="cn">从 GitHub Releases 下载</p>
+        <a href="https://github.com/hanwenn/claude-launcher/releases" target="_blank" class="btn btn-secondary">
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/></svg>
+          GitHub Releases
+        </a>
+      </div>
+      <div class="download-card fade-in">
+        <h3 data-lang="en">Pro License</h3>
+        <h3 data-lang="cn">Pro 许可证</h3>
+        <p data-lang="en">One-time $19 purchase, unlock all features</p>
+        <p data-lang="cn">一次性 $19 购买，解锁全部功能</p>
+        <a href="https://your-store.lemonsqueezy.com/checkout" target="_blank" class="btn btn-primary">
+          <span data-lang="en-inline">Buy Pro - $19</span>
+          <span data-lang="cn-inline">购买 Pro - $19</span>
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Footer -->
+<footer>
+  <div class="container">
+    <div class="footer-links">
+      <a href="https://github.com/hanwenn/claude-launcher" target="_blank">GitHub</a>
+      <a href="https://github.com/hanwenn/claude-launcher/issues" target="_blank" data-lang="en">Report Issue</a>
+      <a href="https://github.com/hanwenn/claude-launcher/issues" target="_blank" data-lang="cn">反馈问题</a>
+      <a href="#pricing" data-lang="en">Pricing</a>
+      <a href="#pricing" data-lang="cn">定价</a>
+    </div>
+    <p data-lang="en">Claude Launcher is open-source under the MIT License.</p>
+    <p data-lang="cn">Claude Launcher 基于 MIT 许可证开源。</p>
+  </div>
+</footer>
+
+<script>
+// Language toggle
+function toggleLang(){
+  document.body.classList.toggle('zh');
+  var btn=document.getElementById('langBtn');
+  btn.textContent=document.body.classList.contains('zh')?'English':'中文';
+  document.documentElement.lang=document.body.classList.contains('zh')?'zh':'en';
+}
+
+// Scroll-triggered fade-in
+(function(){
+  var els=document.querySelectorAll('.fade-in');
+  var obs=new IntersectionObserver(function(entries){
+    entries.forEach(function(e){if(e.isIntersecting){e.target.classList.add('visible');obs.unobserve(e.target)}});
+  },{threshold:0.1});
+  els.forEach(function(el){obs.observe(el)});
+})();
+</script>
+</body>
+</html>
