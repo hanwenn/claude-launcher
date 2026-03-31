@@ -18,6 +18,10 @@ contextBridge.exposeInMainWorld('electronAPI', {
   // Launcher operations
   launchClaude: (folder, sessionId) => ipcRenderer.invoke('launch-claude', folder, sessionId),
 
+  // Agent operations
+  getAgents: () => ipcRenderer.invoke('get-agents'),
+  getDefaultAgent: () => ipcRenderer.invoke('get-default-agent'),
+
   // Terminal operations
   createTerminal: (options) => ipcRenderer.invoke('terminal:create', options),
   writeTerminal: (id, data) => ipcRenderer.invoke('terminal:input', { id, data }),

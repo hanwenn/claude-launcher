@@ -13,6 +13,14 @@ const DEFAULT_CONFIG = Object.freeze({
   expected_ip: '198.3.16.159',
   claude_cli_command: 'claude',
   health_check_interval_secs: 300,
+  agents: Object.freeze([
+    Object.freeze({ id: 'claude', name: 'Claude Code', command: 'claude', color: '#bc8cff', icon: 'brain', resumeFlag: '--resume' }),
+    Object.freeze({ id: 'codex', name: 'Codex CLI', command: 'codex', color: '#3fb950', icon: 'code', resumeFlag: '--resume' }),
+    Object.freeze({ id: 'gemini', name: 'Gemini CLI', command: 'gemini', color: '#58a6ff', icon: 'sparkles', resumeFlag: '--resume' }),
+    Object.freeze({ id: 'aider', name: 'Aider', command: 'aider', color: '#d29922', icon: 'wrench', resumeFlag: '' }),
+    Object.freeze({ id: 'copilot', name: 'Copilot CLI', command: 'github-copilot-cli', color: '#f0f6fc', icon: 'github', resumeFlag: '' }),
+  ]),
+  default_agent: 'claude',
 });
 
 /**
@@ -40,6 +48,8 @@ function loadConfig() {
       expected_ip: typeof parsed.expected_ip === 'string' ? parsed.expected_ip : DEFAULT_CONFIG.expected_ip,
       claude_cli_command: typeof parsed.claude_cli_command === 'string' ? parsed.claude_cli_command : DEFAULT_CONFIG.claude_cli_command,
       health_check_interval_secs: typeof parsed.health_check_interval_secs === 'number' ? parsed.health_check_interval_secs : DEFAULT_CONFIG.health_check_interval_secs,
+      agents: Array.isArray(parsed.agents) ? parsed.agents.map((a) => ({ ...a })) : [...DEFAULT_CONFIG.agents],
+      default_agent: typeof parsed.default_agent === 'string' ? parsed.default_agent : DEFAULT_CONFIG.default_agent,
     };
   } catch (_parseErr) {
     // Corrupted JSON: backup the file and return defaults

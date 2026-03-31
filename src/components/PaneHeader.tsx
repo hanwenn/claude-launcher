@@ -38,6 +38,15 @@ const PaneHeader: Component<PaneHeaderProps> = (props) => {
           class="pane-header__status-dot"
           style={{ background: statusColor() }}
         />
+        <span
+          class="pane-header__agent-badge"
+          style={{
+            background: props.terminal.agentColor || '#bc8cff',
+            color: '#0d1117',
+          }}
+        >
+          {props.terminal.agentName || 'Claude'}
+        </span>
         <span class="pane-header__folder truncate">
           {props.terminal.folderDisplayName}
         </span>

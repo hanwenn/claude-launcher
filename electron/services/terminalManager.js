@@ -49,6 +49,7 @@ class TerminalManager {
       folder,
       cliCommand = 'claude',
       sessionId = null,
+      resumeFlag = '--resume',
       cols = 80,
       rows = 24,
     } = options;
@@ -85,7 +86,7 @@ class TerminalManager {
     const safeRows = Number.isFinite(rows) && rows > 0 ? Math.floor(rows) : 24;
 
     // Build command arguments
-    const args = sessionId ? ['--resume', sessionId] : [];
+    const args = (sessionId && resumeFlag) ? [resumeFlag, sessionId] : [];
 
     // Platform-specific shell setup
     const shell = process.platform === 'win32' ? 'cmd.exe' : 'bash';

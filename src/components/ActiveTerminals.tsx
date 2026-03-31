@@ -10,6 +10,9 @@ interface TerminalMeta {
   readonly exitCode: number | null;
   readonly startedAt: string;
   readonly lastOutput: string;
+  readonly agentId?: string;
+  readonly agentName?: string;
+  readonly agentColor?: string;
 }
 
 function formatDuration(startedAt: string): string {
@@ -94,6 +97,14 @@ const ActiveTerminals: Component = () => {
                 />
                 <div class="active-terminal-item__info">
                   <div class="active-terminal-item__name-row">
+                    <Show when={terminal.agentName}>
+                      <span
+                        class="active-terminal-item__agent-badge"
+                        style={{ background: terminal.agentColor || '#bc8cff', color: '#0d1117' }}
+                      >
+                        {terminal.agentName}
+                      </span>
+                    </Show>
                     <span class="active-terminal-item__name">
                       {terminal.folderDisplayName}
                     </span>

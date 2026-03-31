@@ -3,6 +3,7 @@ import { createSignal, onMount, onCleanup, Show } from "solid-js";
 import { loadFolders, addNewFolder } from "./stores/folderStore";
 import { startHealthPolling, stopHealthPolling } from "./stores/healthStore";
 import { refreshActiveSessions } from "./stores/sessionStore";
+import { loadAgents } from "./stores/agentStore";
 import HealthBanner from "./components/HealthBanner";
 import FolderList from "./components/FolderList";
 import SessionList from "./components/SessionList";
@@ -42,6 +43,7 @@ const App: Component = () => {
     }
 
     loadFolders();
+    loadAgents();
     startHealthPolling();
     refreshActiveSessions();
     activeInterval = setInterval(() => refreshActiveSessions(), 2000);

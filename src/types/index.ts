@@ -20,6 +20,15 @@ export interface HealthResult {
   readonly checked_at: string;
 }
 
+export interface AgentProfile {
+  readonly id: string;
+  readonly name: string;
+  readonly command: string;
+  readonly color: string;
+  readonly icon: string;
+  readonly resumeFlag: string;
+}
+
 export interface TerminalInstance {
   readonly id: string;
   readonly folder: string;
@@ -27,6 +36,9 @@ export interface TerminalInstance {
   readonly sessionId: string | null;
   readonly status: 'running' | 'exited';
   readonly exitCode: number | null;
+  readonly agentId: string;
+  readonly agentName: string;
+  readonly agentColor: string;
 }
 
 export type LayoutMode = 1 | 2 | 4 | 6 | 8;

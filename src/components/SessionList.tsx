@@ -6,6 +6,7 @@ import { activeFolder } from "../stores/folderStore";
 import { formatPath } from "../lib/formatters";
 import SessionCard from "./SessionCard";
 import LaunchButton from "./LaunchButton";
+import AgentSelector from "./AgentSelector";
 import EmptyState from "./EmptyState";
 
 const SessionList: Component = () => {
@@ -25,6 +26,7 @@ const SessionList: Component = () => {
                 {folder()}
               </span>
               <div class="session-list__actions">
+                <AgentSelector />
                 <button
                   class="session-list__refresh-btn"
                   onClick={() => loadSessions(folder())}

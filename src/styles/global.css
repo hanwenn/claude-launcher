@@ -51,6 +51,7 @@
   --z-card: 10;
   --z-sidebar: 20;
   --z-banner: 30;
+  --z-dropdown: 50;
   --z-dialog: 100;
   --z-toast: 200;
 
@@ -233,6 +234,11 @@ select:focus {
     opacity: 1;
     transform: scale(1);
   }
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(-4px); }
+  to { opacity: 1; transform: translateY(0); }
 }
 
 /* ============================================================
@@ -2339,4 +2345,134 @@ select:focus {
 .active-terminals__dashboard-btn:hover {
   background: var(--bg-hover);
   color: var(--text-primary);
+}
+
+/* =========================================
+   Agent Selector
+   ========================================= */
+
+.agent-selector {
+  position: relative;
+  display: inline-flex;
+}
+
+.agent-selector__trigger {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 10px;
+  border-radius: var(--radius-full);
+  background: var(--bg-tertiary);
+  border: 1px solid var(--border-default);
+  color: var(--text-primary);
+  font-size: var(--text-sm);
+  cursor: pointer;
+  transition: background var(--transition-fast), border-color var(--transition-fast);
+  white-space: nowrap;
+}
+
+.agent-selector__trigger:hover {
+  background: var(--bg-hover);
+  border-color: var(--border-accent);
+}
+
+.agent-selector__dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.agent-selector__name {
+  font-weight: var(--weight-medium);
+}
+
+.agent-selector__chevron {
+  transition: transform var(--transition-fast);
+  color: var(--text-muted);
+}
+
+.agent-selector__chevron--open {
+  transform: rotate(180deg);
+}
+
+.agent-selector__dropdown {
+  position: absolute;
+  top: calc(100% + 4px);
+  right: 0;
+  z-index: var(--z-dropdown);
+  min-width: 180px;
+  background: var(--bg-secondary);
+  border: 1px solid var(--border-default);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-lg);
+  padding: 4px;
+  animation: fadeIn var(--transition-fast);
+}
+
+.agent-selector__option {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  width: 100%;
+  padding: 8px 10px;
+  border: none;
+  border-radius: var(--radius-sm);
+  background: transparent;
+  color: var(--text-primary);
+  font-size: var(--text-sm);
+  cursor: pointer;
+  transition: background var(--transition-fast);
+  text-align: left;
+}
+
+.agent-selector__option:hover {
+  background: var(--bg-hover);
+}
+
+.agent-selector__option--active {
+  background: var(--bg-active);
+}
+
+.agent-selector__option-name {
+  flex: 1;
+}
+
+.agent-selector__check {
+  color: var(--accent-green);
+  font-size: 14px;
+}
+
+/* =========================================
+   Agent Badge in PaneHeader
+   ========================================= */
+
+.pane-header__agent-badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 1px 6px;
+  border-radius: var(--radius-full);
+  font-size: 10px;
+  font-weight: var(--weight-semibold);
+  letter-spacing: 0.02em;
+  line-height: 1.4;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+/* =========================================
+   Agent Badge in Active Terminals
+   ========================================= */
+
+.active-terminal-item__agent-badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 1px 5px;
+  border-radius: var(--radius-full);
+  font-size: 9px;
+  font-weight: var(--weight-semibold);
+  letter-spacing: 0.02em;
+  line-height: 1.4;
+  white-space: nowrap;
+  flex-shrink: 0;
 }

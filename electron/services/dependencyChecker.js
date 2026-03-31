@@ -1,6 +1,7 @@
 const { execSync, exec } = require('child_process');
 const fs = require('fs');
 const path = require('path');
+const configService = require('./configService');
 
 /**
  * Check if the Claude CLI is installed and accessible.
@@ -122,15 +123,75 @@ function checkNodejs() {
 }
 
 /**
- * Check all application dependencies.
+ * Check if a generic CLI agent is installed and accessible.
+ * @param {object} agent - Agent profile { id, name, command }
+ * @returns {object} Dependency status
+ */
+function checkAgent(agent) {
+  try {
+    const result = execSync(`where ${agent.command}`, {
+      encoding: 'utf8',
+      timeout: 5000,
+      windowsHide: true,
+    }).trim();
+
+    let version = '';
+    try {
+      version = execSync(`${agent.command} --version`, {
+        encoding: 'utf8',
+        timeout: 5000,
+        windowsHide: true,
+      }).trim();
+    } catch (_) {
+      // version detection is best-effort
+    }
+
+    return {
+      name: agent.name,
+      status: 'installed',
+      version: version || 'unknown',
+      path: result.split('\n')[0].trim(),
+      required: agent.id === 'claude',
+    };
+  } catch (_) {
+    return {
+      name: agent.name,
+      status: agent.id === 'claude' ? 'missing' : 'optional_missing',
+      version: null,
+      path: null,
+      required: agent.id === 'claude',
+      installHint: agent.id === 'claude'
+        ? '请运行: npm install -g @anthropic-ai/claude-code'
+        : `CLI "${agent.command}" 未找到`,
+      installCmd: agent.id === 'claude' ? 'npm install -g @anthropic-ai/claude-code' : undefined,
+    };
+  }
+}
+
+/**
+ * Check all application dependencies, including all configured agents.
  * @returns {object} Map of dependency name to status object
  */
 function checkAllDependencies() {
-  return {
+  const result = {
     nodejs: checkNodejs(),
     claude: checkClaude(),
     windowsTerminal: checkWindowsTerminal(),
   };
+
+  // Check additional configured agents (skip claude since it's already checked above)
+  try {
+    const config = configService.loadConfig();
+    const agents = config.agents || [];
+    for (const agent of agents) {
+      if (agent.id === 'claude') continue; // already checked
+      result[`agent_${agent.id}`] = checkAgent(agent);
+    }
+  } catch (_) {
+    // best-effort: config may not be available
+  }
+
+  return result;
 }
 
 /**

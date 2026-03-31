@@ -81,7 +81,8 @@ function generateId(): string {
 export async function openTerminal(
   folder: string,
   displayName: string,
-  sessionId?: string
+  sessionId?: string,
+  agentId?: string
 ): Promise<string> {
   const id = generateId();
 
@@ -90,6 +91,7 @@ export async function openTerminal(
     folder,
     folderDisplayName: displayName,
     sessionId,
+    agentId,
     cols: 80,
     rows: 24,
   });
@@ -111,6 +113,9 @@ export async function loadTerminalsFromMain(): Promise<void> {
         sessionId: meta.sessionId || null,
         status: meta.status || 'running',
         exitCode: meta.exitCode ?? null,
+        agentId: meta.agentId || 'claude',
+        agentName: meta.agentName || 'Claude Code',
+        agentColor: meta.agentColor || '#bc8cff',
       });
     }
     // Auto-adjust layout to fit terminal count
@@ -156,6 +161,9 @@ export function setupListeners(): void {
       sessionId: meta.sessionId || null,
       status: 'running',
       exitCode: null,
+      agentId: meta.agentId || 'claude',
+      agentName: meta.agentName || 'Claude Code',
+      agentColor: meta.agentColor || '#bc8cff',
     });
     autoAdjustLayout();
   });

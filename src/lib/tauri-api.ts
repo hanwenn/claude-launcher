@@ -1,4 +1,4 @@
-import type { FolderInfo, SessionInfo, HealthResult } from "../types";
+import type { FolderInfo, SessionInfo, HealthResult, AgentProfile } from "../types";
 
 export async function getFolders(): Promise<FolderInfo[]> {
   return window.electronAPI.getFolders();
@@ -24,12 +24,20 @@ export async function launchClaude(folder: string, sessionId?: string): Promise<
   return window.electronAPI.launchClaude(folder, sessionId);
 }
 
+export async function getAgents(): Promise<AgentProfile[]> {
+  return window.electronAPI.getAgents();
+}
+
+export async function getDefaultAgent(): Promise<string> {
+  return window.electronAPI.getDefaultAgent();
+}
+
 export async function createTerminal(options: {
   id: string;
   folder: string;
   folderDisplayName?: string;
   sessionId?: string;
-  cliCommand?: string;
+  agentId?: string;
   cols?: number;
   rows?: number;
 }): Promise<{ id: string }> {

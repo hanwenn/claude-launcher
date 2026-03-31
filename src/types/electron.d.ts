@@ -1,4 +1,4 @@
-import type { FolderInfo, SessionInfo, HealthResult } from "./index";
+import type { FolderInfo, SessionInfo, HealthResult, AgentProfile } from "./index";
 
 declare global {
   interface Window {
@@ -12,7 +12,9 @@ declare global {
       setExpectedIp: (ip: string) => Promise<string>;
       launchClaude: (folder: string, sessionId?: string) => Promise<void>;
       openFolderDialog: () => Promise<string | null>;
-      createTerminal: (options: { id: string; folder: string; folderDisplayName?: string; sessionId?: string; cliCommand?: string; cols?: number; rows?: number }) => Promise<{ id: string }>;
+      getAgents: () => Promise<AgentProfile[]>;
+      getDefaultAgent: () => Promise<string>;
+      createTerminal: (options: { id: string; folder: string; folderDisplayName?: string; sessionId?: string; agentId?: string; cols?: number; rows?: number }) => Promise<{ id: string }>;
       writeTerminal: (id: string, data: string) => Promise<void>;
       resizeTerminal: (id: string, cols: number, rows: number) => Promise<void>;
       closeTerminal: (id: string) => Promise<void>;

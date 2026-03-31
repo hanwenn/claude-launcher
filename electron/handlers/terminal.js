@@ -54,6 +54,18 @@ function registerTerminalHandlers(ipcMain, getDashboardWindow, openDashboardWind
     return getTerminalList();
   });
 
+  // Return configured agents
+  ipcMain.handle('get-agents', async () => {
+    const config = configService.loadConfig();
+    return config.agents || [];
+  });
+
+  // Return default agent id
+  ipcMain.handle('get-default-agent', async () => {
+    const config = configService.loadConfig();
+    return config.default_agent || 'claude';
+  });
+
   // Return list of active (running) session IDs for Launcher
   ipcMain.handle('terminal:active-sessions', async () => {
     return Array.from(terminalMetas.values())
@@ -62,7 +74,7 @@ function registerTerminalHandlers(ipcMain, getDashboardWindow, openDashboardWind
   });
   ipcMain.handle('terminal:create', async (_event, options) => {
     try {
-      const { id, folder, sessionId, folderDisplayName, cols, rows } = options || {};
+      const { id, folder, sessionId, folderDisplayName, agentId, cols, rows } = options || {};
 
       if (!id || typeof id !== 'string') {
         throw new Error('Terminal id is required');
@@ -74,7 +86,11 @@ function registerTerminalHandlers(ipcMain, getDashboardWindow, openDashboardWind
         throw new Error('Folder not in configured list');
       }
 
-      const cliCommand = config.claude_cli_command || 'claude';
+      // Resolve agent from config
+      const agents = config.agents || [];
+      const resolvedAgentId = agentId || config.default_agent || 'claude';
+      const agent = agents.find((a) => a.id === resolvedAgentId) || agents[0] || { id: 'claude', name: 'Claude Code', command: 'claude', color: '#bc8cff', resumeFlag: '--resume' };
+      const cliCommand = agent.command || config.claude_cli_command || 'claude';
       const safeCols = cols || 80;
       const safeRows = rows || 24;
       const displayName = folderDisplayName || require('path').basename(folder);
@@ -85,6 +101,9 @@ function registerTerminalHandlers(ipcMain, getDashboardWindow, openDashboardWind
         folder,
         folderDisplayName: displayName,
         sessionId: sessionId || null,
+        agentId: agent.id,
+        agentName: agent.name,
+        agentColor: agent.color || '#bc8cff',
         status: 'running',
         exitCode: null,
         startedAt: new Date().toISOString(),
@@ -137,7 +156,7 @@ function registerTerminalHandlers(ipcMain, getDashboardWindow, openDashboardWind
 
       const result = manager.create(
         id,
-        { folder, cliCommand, sessionId, cols: safeCols, rows: safeRows },
+        { folder, cliCommand, sessionId, resumeFlag: agent.resumeFlag || '', cols: safeCols, rows: safeRows },
         onData,
         onExit
       );

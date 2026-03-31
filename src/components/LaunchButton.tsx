@@ -5,6 +5,7 @@ import { Terminal, RefreshCw, ShieldAlert } from "lucide-solid";
 import * as api from "../lib/tauri-api";
 import { openTerminal } from "../stores/terminalStore";
 import { markSessionActive } from "../stores/sessionStore";
+import { selectedAgentId } from "../stores/agentStore";
 
 interface LaunchButtonProps {
   readonly folderPath: string | null;
@@ -32,7 +33,10 @@ const LaunchButton: Component<LaunchButtonProps> = (props) => {
   async function launchTerminal(): Promise<void> {
     const folder = props.folderPath!;
     const displayName = getFolderDisplayName();
-    await openTerminal(folder, displayName, props.sessionId ?? undefined);
+    // When resuming a session, always use claude (sessions are Claude-specific).
+    // For new sessions, use the currently selected agent.
+    const agentId = props.sessionId ? 'claude' : selectedAgentId();
+    await openTerminal(folder, displayName, props.sessionId ?? undefined, agentId);
     await window.electronAPI.openDashboard();
   }
 
