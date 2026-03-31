@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Claude Launcher vs Windows Terminal for AI Coding | Claude Launcher</title>
+<meta name="description" content="Compare Claude Launcher and Windows Terminal for managing Claude Code sessions on Windows. See why AI developers choose Claude Launcher for session management, DNS checks, and split-screen dashboards.">
+<meta property="og:title" content="Claude Launcher vs Windows Terminal for AI Coding">
+<meta property="og:description" content="Windows Terminal is great for general use. Claude Launcher is built specifically for Claude Code session management with DNS safety checks and split-screen dashboards.">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://hanwenn.github.io/claude-launcher/compare-windows-terminal.html">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="keywords" content="windows terminal claude code, claude code terminal manager, AI terminal windows, claude code GUI, windows terminal alternative AI, claude code session manager">
+<link rel="canonical" href="https://hanwenn.github.io/claude-launcher/compare-windows-terminal.html">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{--bg:#0d1117;--bg2:#161b22;--bg3:#1c2128;--border:#30363d;--border2:#484f58;--text:#e6edf3;--text2:#8b949e;--text3:#6e7681;--accent:#58a6ff;--accent2:#1f6feb;--green:#3fb950;--purple:#bc8cff;--orange:#d29922;--radius:12px;--radius-sm:8px}
+html{scroll-behavior:smooth}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Helvetica,Arial,sans-serif;background:var(--bg);color:var(--text);line-height:1.6;overflow-x:hidden}
+a{color:var(--accent);text-decoration:none;transition:color .2s}a:hover{color:#79c0ff}
+.container{max-width:900px;margin:0 auto;padding:0 24px}
+nav{position:fixed;top:0;left:0;right:0;z-index:100;background:rgba(13,17,23,.85);backdrop-filter:blur(12px);border-bottom:1px solid var(--border);padding:12px 0}
+nav .container{display:flex;align-items:center;justify-content:space-between}
+nav .logo{font-size:1.2rem;font-weight:700;color:var(--text);display:flex;align-items:center;gap:8px}
+nav .logo span{color:var(--accent)}
+nav .nav-links{display:flex;gap:24px;align-items:center}
+nav .nav-links a{color:var(--text2);font-size:.9rem;transition:color .2s}nav .nav-links a:hover{color:var(--text)}
+.btn{display:inline-flex;align-items:center;gap:8px;padding:12px 28px;border-radius:var(--radius-sm);font-size:1rem;font-weight:600;transition:all .25s;border:none;cursor:pointer;text-decoration:none}
+.btn-primary{background:var(--accent2);color:#fff}.btn-primary:hover{background:var(--accent);color:#fff;transform:translateY(-2px);box-shadow:0 4px 20px rgba(88,166,255,.3)}
+.btn-secondary{background:var(--bg3);color:var(--text);border:1px solid var(--border)}.btn-secondary:hover{border-color:var(--accent);transform:translateY(-2px)}
+
+.page-header{padding:120px 0 48px;text-align:center}
+.page-header h1{font-size:2.5rem;font-weight:800;margin-bottom:16px;background:linear-gradient(135deg,var(--text) 0%,var(--accent) 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.page-header p{color:var(--text2);font-size:1.15rem;max-width:640px;margin:0 auto}
+.content{padding:0 0 80px}
+.content h2{font-size:1.6rem;font-weight:700;margin:48px 0 16px;color:var(--text)}
+.content p,.content li{color:var(--text2);font-size:1rem;line-height:1.7;margin-bottom:12px}
+.content ul{padding-left:24px;margin-bottom:24px}
+
+.compare-table{width:100%;border-collapse:collapse;margin:32px 0;border:1px solid var(--border);border-radius:var(--radius);overflow:hidden}
+.compare-table th,.compare-table td{padding:14px 18px;text-align:left;border-bottom:1px solid var(--border);font-size:.95rem}
+.compare-table th{background:var(--bg2);color:var(--text);font-weight:600}
+.compare-table td{color:var(--text2)}
+.compare-table tr:last-child td{border-bottom:none}
+.check{color:var(--green);font-weight:700}.cross{color:var(--text3)}
+
+.cta-section{text-align:center;padding:64px 0;background:var(--bg2);border-top:1px solid var(--border);margin-top:48px}
+.cta-section h2{font-size:1.8rem;margin-bottom:12px}
+.cta-section p{color:var(--text2);margin-bottom:24px}
+.cta-group{display:flex;gap:16px;justify-content:center;flex-wrap:wrap}
+
+footer{border-top:1px solid var(--border);padding:32px 0;text-align:center;color:var(--text3);font-size:.85rem}
+footer a{color:var(--text2)}
+footer .footer-links{display:flex;gap:24px;justify-content:center;margin-bottom:12px}
+
+@media(max-width:768px){.page-header h1{font-size:1.8rem}.compare-table th,.compare-table td{padding:10px 12px;font-size:.85rem}}
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="container">
+    <a href="./" class="logo">
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><line x1="3" y1="9" x2="21" y2="9"/><line x1="9" y1="21" x2="9" y2="9"/></svg>
+      <span>Claude Launcher</span>
+    </a>
+    <div class="nav-links">
+      <a href="./">Home</a>
+      <a href="./#features">Features</a>
+      <a href="./#pricing">Pricing</a>
+      <a href="./#download">Download</a>
+    </div>
+  </div>
+</nav>
+
+<section class="page-header">
+  <div class="container">
+    <h1>Claude Launcher vs Windows Terminal</h1>
+    <p>Windows Terminal is an excellent general-purpose terminal. Claude Launcher is built specifically for developers who manage multiple Claude Code sessions every day.</p>
+  </div>
+</section>
+
+<section class="content">
+  <div class="container">
+    <h2>Feature Comparison</h2>
+    <table class="compare-table">
+      <thead>
+        <tr><th>Feature</th><th>Windows Terminal</th><th>Claude Launcher</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>Split-screen terminal panes</td><td class="check">Yes</td><td class="check">Yes (up to 8)</td></tr>
+        <tr><td>AI session management dashboard</td><td class="cross">No</td><td class="check">Yes</td></tr>
+        <tr><td>DNS safety check before launch</td><td class="cross">No</td><td class="check">Yes</td></tr>
+        <tr><td>One-click session resume</td><td class="cross">No</td><td class="check">Yes</td></tr>
+        <tr><td>Live session status badges</td><td class="cross">No</td><td class="check">Yes</td></tr>
+        <tr><td>Drag-and-drop pane reorder</td><td class="cross">No</td><td class="check">Yes</td></tr>
+        <tr><td>Custom Claude Code launch profiles</td><td class="cross">No</td><td class="check">Yes</td></tr>
+        <tr><td>General shell support (bash, PS, cmd)</td><td class="check">Yes</td><td class="cross">Claude Code only</td></tr>
+        <tr><td>SSH connections</td><td class="check">Yes</td><td class="cross">No</td></tr>
+        <tr><td>GPU-accelerated rendering</td><td class="check">Yes</td><td class="cross">No</td></tr>
+        <tr><td>Price</td><td>Free</td><td>Free / $19 Pro</td></tr>
+      </tbody>
+    </table>
+
+    <h2>When to use Windows Terminal</h2>
+    <p>Windows Terminal is the right choice when you need a powerful, general-purpose terminal emulator. It supports multiple shell types, SSH connections, GPU-accelerated text rendering, and deep Windows integration. If you only run one or two Claude Code sessions and spend most of your time in other shells, Windows Terminal serves you well.</p>
+
+    <h2>When to use Claude Launcher</h2>
+    <p>Claude Launcher solves a specific problem: managing multiple Claude Code sessions efficiently. If you regularly run 3 or more sessions in parallel, lose track of which session is working on what, or need to resume sessions after a restart, Claude Launcher was built for you.</p>
+    <ul>
+      <li><strong>DNS safety check</strong> verifies that claude.ai resolves to expected IP addresses before launching sessions, preventing risk control issues caused by VPN or DNS changes.</li>
+      <li><strong>Session dashboard</strong> shows live status for every running Claude Code instance in a single view.</li>
+      <li><strong>One-click resume</strong> lets you pick up any previous session exactly where you left off.</li>
+      <li><strong>Drag-and-drop layout</strong> lets you reorganize panes to match your workflow.</li>
+    </ul>
+
+    <h2>Can I use both?</h2>
+    <p>Absolutely. Many developers use Windows Terminal for general shell tasks and Claude Launcher specifically for their Claude Code workflow. They complement each other well. Claude Launcher does not replace your terminal -- it gives Claude Code sessions the dedicated management layer they deserve.</p>
+
+    <p>See also: <a href="compare-warp.html">Claude Launcher vs Warp</a> | <a href="guide-claude-code-sessions.html">How to manage multiple Claude Code sessions</a></p>
+  </div>
+</section>
+
+<section class="cta-section">
+  <div class="container">
+    <h2>Try Claude Launcher free</h2>
+    <p>Download the free edition with up to 4 panes. Upgrade to Pro for 8 panes and all features.</p>
+    <div class="cta-group">
+      <a href="https://github.com/hanwenn/claude-launcher/releases" target="_blank" class="btn btn-primary">Download Free</a>
+      <a href="./#pricing" class="btn btn-secondary">See Pricing</a>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="container">
+    <div class="footer-links">
+      <a href="./">Home</a>
+      <a href="https://github.com/hanwenn/claude-launcher" target="_blank">GitHub</a>
+      <a href="compare-warp.html">vs Warp</a>
+      <a href="guide-claude-code-sessions.html">Session Guide</a>
+      <a href="guide-dns-check.html">DNS Check Guide</a>
+    </div>
+    <p>Claude Launcher is open-source under the MIT License.</p>
+  </div>
+</footer>
+
+</body>
+</html>

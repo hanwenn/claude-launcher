@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Claude Launcher vs Warp for Windows Claude Code Users | Claude Launcher</title>
+<meta name="description" content="Compare Claude Launcher and Warp terminal for Claude Code on Windows. Warp is $20/month, Claude Launcher Pro is $19 one-time. See which is better for AI coding workflows.">
+<meta property="og:title" content="Claude Launcher vs Warp for Windows Claude Code Users">
+<meta property="og:description" content="Warp is $20/month general-purpose AI terminal. Claude Launcher is $19 one-time, built specifically for Claude Code session management on Windows.">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://hanwenn.github.io/claude-launcher/compare-warp.html">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="keywords" content="warp alternative windows, claude code windows GUI, warp vs claude launcher, warp terminal alternative, claude code session manager, AI terminal windows">
+<link rel="canonical" href="https://hanwenn.github.io/claude-launcher/compare-warp.html">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{--bg:#0d1117;--bg2:#161b22;--bg3:#1c2128;--border:#30363d;--border2:#484f58;--text:#e6edf3;--text2:#8b949e;--text3:#6e7681;--accent:#58a6ff;--accent2:#1f6feb;--green:#3fb950;--purple:#bc8cff;--orange:#d29922;--radius:12px;--radius-sm:8px}
+html{scroll-behavior:smooth}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Helvetica,Arial,sans-serif;background:var(--bg);color:var(--text);line-height:1.6;overflow-x:hidden}
+a{color:var(--accent);text-decoration:none;transition:color .2s}a:hover{color:#79c0ff}
+.container{max-width:900px;margin:0 auto;padding:0 24px}
+nav{position:fixed;top:0;left:0;right:0;z-index:100;background:rgba(13,17,23,.85);backdrop-filter:blur(12px);border-bottom:1px solid var(--border);padding:12px 0}
+nav .container{display:flex;align-items:center;justify-content:space-between}
+nav .logo{font-size:1.2rem;font-weight:700;color:var(--text);display:flex;align-items:center;gap:8px}
+nav .logo span{color:var(--accent)}
+nav .nav-links{display:flex;gap:24px;align-items:center}
+nav .nav-links a{color:var(--text2);font-size:.9rem;transition:color .2s}nav .nav-links a:hover{color:var(--text)}
+.btn{display:inline-flex;align-items:center;gap:8px;padding:12px 28px;border-radius:var(--radius-sm);font-size:1rem;font-weight:600;transition:all .25s;border:none;cursor:pointer;text-decoration:none}
+.btn-primary{background:var(--accent2);color:#fff}.btn-primary:hover{background:var(--accent);color:#fff;transform:translateY(-2px);box-shadow:0 4px 20px rgba(88,166,255,.3)}
+.btn-secondary{background:var(--bg3);color:var(--text);border:1px solid var(--border)}.btn-secondary:hover{border-color:var(--accent);transform:translateY(-2px)}
+
+.page-header{padding:120px 0 48px;text-align:center}
+.page-header h1{font-size:2.5rem;font-weight:800;margin-bottom:16px;background:linear-gradient(135deg,var(--text) 0%,var(--accent) 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.page-header p{color:var(--text2);font-size:1.15rem;max-width:640px;margin:0 auto}
+.content{padding:0 0 80px}
+.content h2{font-size:1.6rem;font-weight:700;margin:48px 0 16px;color:var(--text)}
+.content p,.content li{color:var(--text2);font-size:1rem;line-height:1.7;margin-bottom:12px}
+.content ul{padding-left:24px;margin-bottom:24px}
+
+.compare-table{width:100%;border-collapse:collapse;margin:32px 0;border:1px solid var(--border);border-radius:var(--radius);overflow:hidden}
+.compare-table th,.compare-table td{padding:14px 18px;text-align:left;border-bottom:1px solid var(--border);font-size:.95rem}
+.compare-table th{background:var(--bg2);color:var(--text);font-weight:600}
+.compare-table td{color:var(--text2)}
+.compare-table tr:last-child td{border-bottom:none}
+.check{color:var(--green);font-weight:700}.cross{color:var(--text3)}
+
+.highlight-box{background:var(--bg2);border:1px solid var(--accent2);border-radius:var(--radius);padding:24px 28px;margin:32px 0}
+.highlight-box h3{color:var(--accent);margin-bottom:8px;font-size:1.1rem}
+.highlight-box p{color:var(--text2);margin-bottom:0}
+
+.cta-section{text-align:center;padding:64px 0;background:var(--bg2);border-top:1px solid var(--border);margin-top:48px}
+.cta-section h2{font-size:1.8rem;margin-bottom:12px}
+.cta-section p{color:var(--text2);margin-bottom:24px}
+.cta-group{display:flex;gap:16px;justify-content:center;flex-wrap:wrap}
+
+footer{border-top:1px solid var(--border);padding:32px 0;text-align:center;color:var(--text3);font-size:.85rem}
+footer a{color:var(--text2)}
+footer .footer-links{display:flex;gap:24px;justify-content:center;margin-bottom:12px}
+
+@media(max-width:768px){.page-header h1{font-size:1.8rem}.compare-table th,.compare-table td{padding:10px 12px;font-size:.85rem}}
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="container">
+    <a href="./" class="logo">
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><line x1="3" y1="9" x2="21" y2="9"/><line x1="9" y1="21" x2="9" y2="9"/></svg>
+      <span>Claude Launcher</span>
+    </a>
+    <div class="nav-links">
+      <a href="./">Home</a>
+      <a href="./#features">Features</a>
+      <a href="./#pricing">Pricing</a>
+      <a href="./#download">Download</a>
+    </div>
+  </div>
+</nav>
+
+<section class="page-header">
+  <div class="container">
+    <h1>Claude Launcher vs Warp</h1>
+    <p>Warp is a powerful AI-enhanced terminal. Claude Launcher is a specialist tool built for one job: managing Claude Code sessions on Windows.</p>
+  </div>
+</section>
+
+<section class="content">
+  <div class="container">
+
+    <div class="highlight-box">
+      <h3>Price comparison at a glance</h3>
+      <p>Warp Pro: <strong>$20/month</strong> ($240/year). Claude Launcher Pro: <strong>$19 one-time</strong>. That means Claude Launcher pays for itself in the first month -- and you own it forever.</p>
+    </div>
+
+    <h2>Feature Comparison</h2>
+    <table class="compare-table">
+      <thead>
+        <tr><th>Feature</th><th>Warp</th><th>Claude Launcher</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>Pricing model</td><td>$20/month subscription</td><td class="check">$19 one-time</td></tr>
+        <tr><td>Windows support</td><td>Yes (beta)</td><td class="check">Yes (native)</td></tr>
+        <tr><td>Split panes</td><td class="check">Yes</td><td class="check">Yes (up to 8)</td></tr>
+        <tr><td>Claude Code session management</td><td class="cross">No</td><td class="check">Yes</td></tr>
+        <tr><td>DNS safety check</td><td class="cross">No</td><td class="check">Yes</td></tr>
+        <tr><td>Session resume (one-click)</td><td class="cross">No</td><td class="check">Yes</td></tr>
+        <tr><td>Live session status</td><td class="cross">No</td><td class="check">Yes</td></tr>
+        <tr><td>Built-in AI assistant</td><td class="check">Warp AI</td><td class="cross">Uses Claude Code directly</td></tr>
+        <tr><td>General shell support</td><td class="check">bash, zsh, fish, PS</td><td class="cross">Claude Code only</td></tr>
+        <tr><td>Notebook-style output</td><td class="check">Yes</td><td class="cross">No</td></tr>
+        <tr><td>Team collaboration</td><td class="check">Warp Drive</td><td class="cross">No</td></tr>
+      </tbody>
+    </table>
+
+    <h2>When Warp makes sense</h2>
+    <p>Warp is a strong choice if you want an AI-enhanced terminal for all your shell work. It offers intelligent autocomplete, notebook-style command output, team workflow sharing via Warp Drive, and a modern editing experience. If you use multiple shell types and want one terminal to rule them all, Warp delivers.</p>
+
+    <h2>When Claude Launcher makes sense</h2>
+    <p>Claude Launcher makes sense when your primary workflow is Claude Code and you want a dedicated management layer for it. Specifically:</p>
+    <ul>
+      <li><strong>You run multiple Claude Code sessions in parallel</strong> and need a dashboard view of all of them.</li>
+      <li><strong>You need DNS safety checks</strong> to verify your IP resolves correctly before launching sessions, preventing account risk control issues.</li>
+      <li><strong>You want one-click session resume</strong> to pick up previous Claude Code conversations.</li>
+      <li><strong>You prefer a one-time purchase</strong> over a monthly subscription.</li>
+    </ul>
+
+    <h2>The bottom line</h2>
+    <p>Warp is a general-purpose AI terminal that does many things well. Claude Launcher is a specialist that does one thing exceptionally: manage your Claude Code sessions on Windows. If Claude Code is your primary development tool, Claude Launcher gives you purpose-built features that no general terminal offers -- at a fraction of the cost.</p>
+
+    <p>See also: <a href="compare-windows-terminal.html">Claude Launcher vs Windows Terminal</a> | <a href="guide-claude-code-sessions.html">How to manage multiple Claude Code sessions</a></p>
+  </div>
+</section>
+
+<section class="cta-section">
+  <div class="container">
+    <h2>Save $221/year vs Warp Pro</h2>
+    <p>Claude Launcher Pro is $19 one-time. No subscriptions, no recurring charges.</p>
+    <div class="cta-group">
+      <a href="https://github.com/hanwenn/claude-launcher/releases" target="_blank" class="btn btn-primary">Download Free</a>
+      <a href="./#pricing" class="btn btn-secondary">Get Pro - $19</a>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="container">
+    <div class="footer-links">
+      <a href="./">Home</a>
+      <a href="https://github.com/hanwenn/claude-launcher" target="_blank">GitHub</a>
+      <a href="compare-windows-terminal.html">vs Windows Terminal</a>
+      <a href="guide-claude-code-sessions.html">Session Guide</a>
+      <a href="guide-dns-check.html">DNS Check Guide</a>
+    </div>
+    <p>Claude Launcher is open-source under the MIT License.</p>
+  </div>
+</footer>
+
+</body>
+</html>
