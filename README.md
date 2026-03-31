@@ -1,8 +1,21 @@
 # Claude Launcher
 
 <p align="center">
-  <strong>Windows desktop app for Claude Code session management & terminal dashboard</strong><br/>
-  <strong>Windows 桌面端 Claude Code 会话管理与终端仪表盘</strong>
+  <a href="https://github.com/hanwenn/claude-launcher/releases"><img src="https://img.shields.io/github/v/release/hanwenn/claude-launcher?style=flat-square&color=blue" alt="Release"></a>
+  <a href="https://github.com/hanwenn/claude-launcher/releases"><img src="https://img.shields.io/github/downloads/hanwenn/claude-launcher/total?style=flat-square&color=green" alt="Downloads"></a>
+  <a href="https://github.com/hanwenn/claude-launcher/stargazers"><img src="https://img.shields.io/github/stars/hanwenn/claude-launcher?style=flat-square&color=yellow" alt="Stars"></a>
+  <a href="https://github.com/hanwenn/claude-launcher/blob/main/LICENSE"><img src="https://img.shields.io/badge/license-MIT-blue?style=flat-square" alt="License"></a>
+</p>
+
+<p align="center">
+  <strong>The only Windows GUI for managing Claude Code sessions</strong><br/>
+  <strong>Windows 上唯一的 Claude Code 图形化会话管理器</strong>
+</p>
+
+<p align="center">
+  Run multiple Claude Code sessions side by side in a split-screen terminal dashboard.<br/>
+  DNS safety check, drag-and-drop reorder, 5 themes, keyboard shortcuts, session resume.<br/>
+  在分屏终端仪表盘中并行运行多个 Claude Code 会话。DNS安全检查，拖拽排序，5款主题。
 </p>
 
 <p align="center">
@@ -10,14 +23,12 @@
 </p>
 
 <p align="center">
-  <a href="https://github.com/hanwenn/claude-launcher/releases"><strong>Download Latest Release</strong></a>
+  <a href="https://github.com/hanwenn/claude-launcher/releases"><strong>Download .exe</strong></a>
   &nbsp;&bull;&nbsp;
-  <a href="https://hanwenn.github.io/claude-launcher/">Landing Page</a>
+  <a href="https://hanwenn.github.io/claude-launcher/">Website</a>
   &nbsp;&bull;&nbsp;
-  <strong>Pro: $19 one-time</strong> — 8 panes, 5 themes, command palette
+  <strong>Pro: $19 one-time</strong> — 8 panes, all themes, command palette
 </p>
-
-<!-- screenshot -->
 
 ---
 
