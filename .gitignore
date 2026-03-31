@@ -31,3 +31,5 @@ __pycache__/
 docs/PRODUCT-STRATEGY.md
 docs/COMPANY-*.md
 release/
+.claude/settings.local.json
+.claude/scheduled_tasks.lock
