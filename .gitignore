@@ -30,3 +30,4 @@ __pycache__/
 # package-lock.json
 docs/PRODUCT-STRATEGY.md
 docs/COMPANY-*.md
+release/
