@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://hanwenn.github.io/claude-launcher/sitemap.xml
