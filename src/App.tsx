@@ -8,6 +8,7 @@ import FolderList from "./components/FolderList";
 import SessionList from "./components/SessionList";
 import AddFolderDialog from "./components/AddFolderDialog";
 import DependencyCheck from "./components/DependencyCheck";
+import ActiveTerminals from "./components/ActiveTerminals";
 
 const App: Component = () => {
   const [dialogOpen, setDialogOpen] = createSignal(false);
@@ -82,6 +83,7 @@ const App: Component = () => {
       <FolderList onAddFolder={() => setDialogOpen(true)} />
       <div class="main-area">
         <SessionList />
+        <ActiveTerminals />
       </div>
       <AddFolderDialog
         isOpen={dialogOpen()}

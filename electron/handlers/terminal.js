@@ -3,6 +3,13 @@ const { TerminalManager } = require('../services/terminalManager');
 
 const manager = new TerminalManager();
 
+/**
+ * Strip ANSI escape codes from a string for clean text preview.
+ */
+function stripAnsi(str) {
+  return str.replace(/\x1B\[[0-9;]*[a-zA-Z]/g, '').replace(/\x1B\][^\x07]*\x07/g, '').trim();
+}
+
 // Output batching: accumulate per-terminal output and flush every 16ms
 const outputBuffers = new Map(); // id -> accumulated string
 const flushTimers = new Map();  // id -> timeout handle
@@ -80,6 +87,8 @@ function registerTerminalHandlers(ipcMain, getDashboardWindow, openDashboardWind
         sessionId: sessionId || null,
         status: 'running',
         exitCode: null,
+        startedAt: new Date().toISOString(),
+        lastOutput: '',
       };
       terminalMetas.set(id, meta);
 
@@ -97,6 +106,16 @@ function registerTerminalHandlers(ipcMain, getDashboardWindow, openDashboardWind
             id,
             setTimeout(() => flushOutput(id, getDashboardWindow), 16)
           );
+        }
+
+        // Keep last 100 chars of clean output for Launcher preview
+        const m = terminalMetas.get(id);
+        if (m) {
+          const cleaned = stripAnsi(data);
+          if (cleaned.length > 0) {
+            const combined = (m.lastOutput || '') + cleaned;
+            terminalMetas.set(id, { ...m, lastOutput: combined.slice(-100) });
+          }
         }
       };
 
